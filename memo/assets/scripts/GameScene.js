@@ -9,6 +9,12 @@ class GameScene extends Phaser.Scene {
     // this.load.image("bg","/memo/assets/sprites/background.jpg")
   }
   create() {
+    this.createBackground();
+    this.createCards();
+
+    console.log("create");
+  }
+  createBackground() {
     // установить точку вставки другую
     //   let bg = this.add.sprite(0,0,"bg");
     // bg.setOrigin(0.2,0.3);
@@ -16,20 +22,24 @@ class GameScene extends Phaser.Scene {
     //коротка запись
 
     this.add.sprite(0, 0, "bg").setOrigin(0, 0);
+  }
+  createCards() {
+    this.cards = [];
+    let positions = this.getCardsPositions()
+    for (let position of positions ) {
+        this.cards.push(new Card(this, position))
+    //   this.add
+    //     .sprite(position.x, position.y, "card")
+    //     .setOrigin(0, 0)
+    //     .setDisplaySize(config.cardSize.width, config.cardSize.height);
 
-    for (let position of this.getCardsPositions())
-      this.add
-        .sprite(position.x, position.y, "card")
-        .setOrigin(0, 0)
-        .setDisplaySize(config.cardSize.width, config.cardSize.height);
-
-    //config.width/2 = this.sys.game.config.width/2
-    //   this.add.sprite(
-    //     this.sys.game.config.width / 2,
-    //     this.sys.game.config.height / 2,
-    //     "bg"
-    //   );
-    console.log("create");
+      //config.width/2 = this.sys.game.config.width/2
+      //   this.add.sprite(
+      //     this.sys.game.config.width / 2,
+      //     this.sys.game.config.height / 2,
+      //     "bg"
+      //   );
+    }
   }
   getCardsPositions() {
     let position = [];
