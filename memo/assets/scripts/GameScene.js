@@ -1,3 +1,5 @@
+// const { Phaser } = require("./phaser");
+
 class GameScene extends Phaser.Scene {
   constructor() {
     super("Game");
@@ -6,6 +8,10 @@ class GameScene extends Phaser.Scene {
     // console.log("Preload")
     this.load.image("bg", "assets/sprites/background.jpg");
     this.load.image("card", "assets/sprites/card.jpg");
+    for(let value of config.cards){
+        
+        this.load.image("card"+value, `assets/sprites/card${value}.png`);
+    }
     // this.load.image("bg","/memo/assets/sprites/background.jpg")
   }
   create() {
@@ -26,8 +32,14 @@ class GameScene extends Phaser.Scene {
   createCards() {
     this.cards = [];
     let positions = this.getCardsPositions()
-    for (let position of positions ) {
-        this.cards.push(new Card(this, position))
+    Phaser.Utils.Array.Shuffle(positions)
+    // for (let position of positions ) {
+    //     this.cards.push(new Card(this, position))
+    for (let value of config.cards ) {
+        for (let i =0; i<2; i++){
+            this.cards.push(new Card(this, value, positions.pop()))
+        }
+        
     //   this.add
     //     .sprite(position.x, position.y, "card")
     //     .setOrigin(0, 0)
