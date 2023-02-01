@@ -16,9 +16,24 @@ class GameScene extends Phaser.Scene {
   create() {
     this.createBackground();
     this.createCards();
-    this.openedCard = null;
+    this.start();
 
     console.log("create");
+  }
+
+  start() {
+    this.openedCard = null;
+    this.openedCardsCount = 0;
+    this.initCards();
+  }
+  initCards() {
+    let positions = this.getCardsPositions();
+
+    this.cards.forEach((card) => {
+      let position = positions.pop();
+      card.close();
+      card.setPosition(position.x, position.y);
+    });
   }
   createBackground() {
     // установить точку вставки другую
@@ -31,13 +46,14 @@ class GameScene extends Phaser.Scene {
   }
   createCards() {
     this.cards = [];
-    let positions = this.getCardsPositions();
-    Phaser.Utils.Array.Shuffle(positions);
+    // let positions = this.getCardsPositions();
+    // Phaser.Utils.Array.Shuffle(positions);
     // for (let position of positions ) {
     //     this.cards.push(new Card(this, position))
     for (let value of config.cards) {
       for (let i = 0; i < 2; i++) {
-        this.cards.push(new Card(this, value, positions.pop()));
+        // this.cards.push(new Card(this, value, positions.pop()));
+        this.cards.push(new Card(this, value));
       }
 
       //   this.add
@@ -63,6 +79,7 @@ class GameScene extends Phaser.Scene {
       if (this.openedCard.value === card.value) {
         // картинки равны - запомнить
         this.openedCard = null;
+        ++this.openedCardsCount;
       } else {
         // скрыть прошлую.
         this.openedCard.close();
@@ -73,9 +90,12 @@ class GameScene extends Phaser.Scene {
     }
 
     card.open();
+    if (this.openedCardsCount === this.cards.length / 2) {
+      this.start();
+    }
   }
   getCardsPositions() {
-    let position = [];
+    let positions = [];
     let cardTexture = this.textures.get("card").getSourceImage();
     //   let cardWidth = 196 + 8;
     let cardWidth =
@@ -93,13 +113,14 @@ class GameScene extends Phaser.Scene {
 
     for (let row = 0; row < config.rows; row++) {
       for (let col = 0; col < config.cols; col++) {
-        position.push({
+        positions.push({
           x: col * cardWidth + offsetX,
           y: row * cardHeight + offsetY,
         });
       }
     }
 
-    return position;
+    // return position;
+    return Phaser.Utils.Array.Shuffle(positions);
   }
 }
