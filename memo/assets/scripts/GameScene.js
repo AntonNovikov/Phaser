@@ -8,9 +8,8 @@ class GameScene extends Phaser.Scene {
     // console.log("Preload")
     this.load.image("bg", "assets/sprites/background.jpg");
     this.load.image("card", "assets/sprites/card.jpg");
-    for(let value of config.cards){
-        
-        this.load.image("card"+value, `assets/sprites/card${value}.png`);
+    for (let value of config.cards) {
+      this.load.image("card" + value, `assets/sprites/card${value}.png`);
     }
     // this.load.image("bg","/memo/assets/sprites/background.jpg")
   }
@@ -31,19 +30,19 @@ class GameScene extends Phaser.Scene {
   }
   createCards() {
     this.cards = [];
-    let positions = this.getCardsPositions()
-    Phaser.Utils.Array.Shuffle(positions)
+    let positions = this.getCardsPositions();
+    Phaser.Utils.Array.Shuffle(positions);
     // for (let position of positions ) {
     //     this.cards.push(new Card(this, position))
-    for (let value of config.cards ) {
-        for (let i =0; i<2; i++){
-            this.cards.push(new Card(this, value, positions.pop()))
-        }
-        
-    //   this.add
-    //     .sprite(position.x, position.y, "card")
-    //     .setOrigin(0, 0)
-    //     .setDisplaySize(config.cardSize.width, config.cardSize.height);
+    for (let value of config.cards) {
+      for (let i = 0; i < 2; i++) {
+        this.cards.push(new Card(this, value, positions.pop()));
+      }
+
+      //   this.add
+      //     .sprite(position.x, position.y, "card")
+      //     .setOrigin(0, 0)
+      //     .setDisplaySize(config.cardSize.width, config.cardSize.height);
 
       //config.width/2 = this.sys.game.config.width/2
       //   this.add.sprite(
@@ -52,6 +51,11 @@ class GameScene extends Phaser.Scene {
       //     "bg"
       //   );
     }
+    this.input.on("gameobjectdown", this.onCardClicked, this)
+  }
+
+  onCardClicked(pointer,card){
+    card.open();
   }
   getCardsPositions() {
     let position = [];
