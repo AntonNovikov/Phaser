@@ -1,7 +1,5 @@
 // const { Phaser } = require("./phaser");
 
-const { Phaser } = require("./phaser");
-
 class GameScene extends Phaser.Scene {
   constructor() {
     super("Game");
@@ -18,24 +16,9 @@ class GameScene extends Phaser.Scene {
   create() {
     this.createBackground();
     this.createCards();
-    this.start();
+    this.openedCard = null;
 
     console.log("create");
-  }
-
-  start() {
-    this.openedCard = null;
-    this.openedCardsCount = 0;
-    this.initCards();
-  }
-  initCards() {
-    let positions = this.getCardsPositions();
-    Phaser.Utils.Array.Shuffle(positions);
-    this.cards.forEach((card) => {
-      let position = positions.pop();
-      card.close();
-      card.setPosition(position.x, position.y);
-    });
   }
   createBackground() {
     // установить точку вставки другую
@@ -48,14 +31,13 @@ class GameScene extends Phaser.Scene {
   }
   createCards() {
     this.cards = [];
-    // let positions = this.getCardsPositions();
-    // Phaser.Utils.Array.Shuffle(positions);
+    let positions = this.getCardsPositions();
+    Phaser.Utils.Array.Shuffle(positions);
     // for (let position of positions ) {
     //     this.cards.push(new Card(this, position))
     for (let value of config.cards) {
       for (let i = 0; i < 2; i++) {
-        // this.cards.push(new Card(this, value, positions.pop()));
-        this.cards.push(new Card(this, value));
+        this.cards.push(new Card(this, value, positions.pop()));
       }
 
       //   this.add
@@ -81,7 +63,6 @@ class GameScene extends Phaser.Scene {
       if (this.openedCard.value === card.value) {
         // картинки равны - запомнить
         this.openedCard = null;
-        ++this.openedCardsCount;
       } else {
         // скрыть прошлую.
         this.openedCard.close();
@@ -92,9 +73,6 @@ class GameScene extends Phaser.Scene {
     }
 
     card.open();
-    if (this.openedCardsCount === this.cards.length / 2) {
-      this.start();
-    }
   }
   getCardsPositions() {
     let position = [];
@@ -122,7 +100,6 @@ class GameScene extends Phaser.Scene {
       }
     }
 
-    // return position;
-    return Phaser.Utils.Array.Shuffle(positions);
+    return position;
   }
 }
