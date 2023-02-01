@@ -106,9 +106,13 @@ class GameScene extends Phaser.Scene {
     let cardHeight =
       cardTexture.height * (config.cardSize.height / cardTexture.height) + 8;
     console.log(`Высота: ${cardHeight}`);
-    let offsetX = (this.sys.game.config.width - config.cols * cardWidth) / 2;
+    let offsetX =
+      (this.sys.game.config.width - config.cols * cardWidth) / 2 +
+      cardWidth / 2;
     console.log(offsetX);
-    let offsetY = (this.sys.game.config.height - config.rows * cardHeight) / 2;
+    let offsetY =
+      (this.sys.game.config.height - config.rows * cardHeight) / 2 +
+      cardHeight / 2;
     console.log(offsetY);
 
     for (let row = 0; row < config.rows; row++) {
