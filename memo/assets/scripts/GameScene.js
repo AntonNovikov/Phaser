@@ -13,8 +13,17 @@ class GameScene extends Phaser.Scene {
     }
     // this.load.image("bg","/memo/assets/sprites/background.jpg")
   }
+
+  createText() {
+    this.timeoutText = this.add.text(10, 330, "Time:", {
+      font: "36px CurseCasual",
+      fill: "#fff",
+    });
+  }
+
   create() {
     this.createBackground();
+    this.createText();
     this.createCards();
     this.start();
 
