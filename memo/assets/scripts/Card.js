@@ -1,8 +1,10 @@
 // const { Phaser } = require("./phaser");
 
 class Card extends Phaser.GameObjects.Sprite {
-  constructor(scene, value, position) {
-    super(scene, position.x, position.y, "card");
+  //   constructor(scene, value, position) {
+  constructor(scene, value) {
+    // super(scene, position.x, position.y, "card");
+    super(scene, 0, 0, "card");
     // super(scene, position.x, position.y, "card" + value);
     this.scene = scene;
     this.value = value;
